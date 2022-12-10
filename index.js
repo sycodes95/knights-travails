@@ -26,8 +26,76 @@
 
 
 */
-let xAxis = [1,2,3,4,5,6,7,8]
+
+class Graph{
+    constructor(){
+        this.nodes = {}
+    }
+
+    addVert(vert1){
+        this.nodes[vert1] = [];
+    }
+
+    addEdge(vert1) {
+        makeMoveList(vert1).forEach((e,i)=>{
+            if(this.nodes[vert1] && this.nodes[e]){
+                this.nodes[vert1].push(e)
+                
+            }
+        })
+    }
+    bfs(start, adjList){
+        let dist = []
+        for(let i = 0; i < gameBoard().length; i++){
+            dist[i] = Math.max()
+        }
+        let q = []
+
+        dist[start] = 0
+        q.push(start)
+
+        while(q.length > 0){
+            let node = q.shift()
+        }
+        
+    }
+
+}
+
+function makeMoveList(start){
+    let moves = []
+    if((start[0] + 2) <= 8 && (start[1] + 1) <= 8){
+        moves.push([start[0]+2, start[1]+1])
+    }
+    if((start[0] + 2) <= 8 && (start[1] - 1) >= 1){
+        moves.push([start[0]+2, start[1]-1])
+    }
+    if((start[0] - 2) >= 1 && (start[1] + 1) <= 8){
+        moves.push([start[0]-2, start[1]+1])
+    }
+    if((start[0] - 2) >= 1 && (start[1] - 1) >= 1){
+        moves.push([start[0]-2, start[1]-1])
+    }
+    if((start[0] + 1) <= 8 && (start[1] - 2) >= 1){
+        moves.push([start[0]+1, start[1]-2])
+    }
+    if((start[0] - 1) >= 1 && (start[1] - 2) >= 1){
+        moves.push([start[0]-1, start[1]-2])
+    }
+    if((start[0] + 1) <= 8 && (start[1] + 2) <= 8){
+        moves.push([start[0]+1, start[1]+2])
+    }
+    if((start[0] - 1) >= 1 && (start[1] + 2) <= 8){
+        moves.push([start[0]-1, start[1]+2])
+    }
+    return moves;
+
+
+}
+
+
 let yAxis = [1,2,3,4,5,6,7,8]
+let xAxis = [1,2,3,4,5,6,7,8]
 
 const gameBoard = ()=>{
     let combos = [];
@@ -37,124 +105,43 @@ const gameBoard = ()=>{
     
     return combos;
 }
-
-
-
-
-
-
-
-
-
-class Tree{
-    constructor(start){
-        this.root = this.buildTree(start);
-    }
-    buildTree(start){
-        if(start[0] < 1 || start[1] < 1 || start[0] > 8 || start[1] > 8){
-            return null;
-            
-        }
-        
-        console.log(gameBoard()[1])
-        /*
-        gameBoard().forEach((e, i)=>{
-            
-        })
-        */
-        let root = new Moves(start)
-        
-        // 2 UP / 1 RIGHT 
-        if((start[0] + 2) <= 8 && (start[0] + 2) >= 1 && (start[1] + 1) <= 8 && (start[1] + 1) >= 1){
-            root.one = [start[0]+2, start[1]+1]
-        } else {
-            root.one = null;
-        }
-        // 2 UP / 1 LEFT
-        if((start[0] + 2) <= 8 && (start[0] + 2) >= 1 && (start[1] - 1) >= 1 && (start[1] - 1) <= 8){
-            root.two = [start[0]+2, start[1]-1]
-        } else {
-            root.two = null;
-        }
-        // 2 DOWN / 1 RIGHT
-        if((start[0] - 2) >= 1 && (start[0] - 2) <= 8 && (start[1] + 1) <= 8 && (start[1] + 1) >= 1){
-            root.three = [start[0]-2, start[1]+1]
-        } else {
-            root.three = null;
-        }
-        // 2 DOWN / 1 LEFT
-        if((start[0] - 2) >= 1 && (start[0] - 2) <= 8 && (start[0] - 1) >= 1 && (start[0] - 1) <= 8){
-            root.four = [start[0]-2, start[1]-1]
-        } else {
-            root.four = null;
-        }
-        // 1 UP/ 2 LEFT
-        if((start[0] + 1) <= 8 && (start[0] + 1) >= 1 && (start[0] - 2) >= 1 && (start[0] - 2) <= 8){
-            root.five = [start[0]+1, start[1]-2]
-        } else {
-            root.five = null;
-        }
-        // 1 DOWN/ 2 LEFT
-        if((start[0] - 1) >= 1 && (start[0] - 1) <= 8 && (start[0] - 2) >= 8 && (start[0] - 2) <= 1){
-            root.six = [start[0]-1, start[1]-2]
-        } else {
-            root.six = null;
-        }
-        // 1 UP/ 2 RIGHT
-        if((start[0] + 1) <= 8 && (start[0] + 2) <= 8){
-            root.seven = [start[0]+1, start[1]+2]
-        } else {
-            root.seven = null;
-        }
-        // 1 DOWN/ 2 RIGHT
-        if((start[0] - 1) >= 1 && (start[0] + 2) <= 8){
-            root.eight = [start[0]-1, start[1]+2]
-        } else {
-            root.eight = null;
-        }
-        return root;
-        
-    }
+console.log(gameBoard())
+function knightMoves(start, end, moveList = [], queue = [], visited = []){
+    moveList.push(start)
+    console.log(queue)
     
+    let g = new Graph()
+    gameBoard().forEach(e =>{
+        g.addVert(e)
+    });
+    gameBoard().forEach(e =>{
+        g.addEdge(e)
+    });
+    g.nodes[start].forEach(e =>{
+        queue.push(e)
+        visited.push(e)
+    })
+    console.log(visited)
+    if(start[0] == end[0] && start[1] == end[1]){
+        console.log(start);
+        g.nodes[moveList[0]].forEach(e =>{
 
-}
-
-
-
-
-
-class Moves{
-    constructor(current,one,two,three,four,five,six,seven,eight){
-        this.current = current
-        this.one = one;
-        this.two = two;
-        this.three = three;
-        this.four = four;
-        this.five = five;
-        this.six = six;
-        this.seven = seven;
-        this.eight = eight;
-
-    }
-
-}
-
-
-
-function knightMoves(start, end, moveList = []){
-    console.log(start, end)
-    if(start[0] == end[0] && start[1] == end[1]) {
-        moveList.push(end);
+        });
         console.log(moveList)
         return moveList;
+        
     }
-    moveList.push(start)
-    knightMoves([start[0]+1, start[1]+2], end, moveList)
-
     
+    knightMoves(queue.shift(), end, moveList, queue, visited)
     
 }
 knightMoves([1,1], [3,5])
+
+function findPath(start, moveList){
+    let g = new Graph()
+
+
+}
 
 
 
